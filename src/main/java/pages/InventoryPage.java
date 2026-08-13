@@ -1,3 +1,4 @@
+// InventoryPage.java
 package pages;
 
 import java.time.Duration;
@@ -13,35 +14,30 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class InventoryPage {
 
     private WebDriver driver;
-
     private WebDriverWait wait;
 
-
     // Locators
-
     private By inventoryTitle =
             By.className("title");
 
     private By productItems =
             By.className("inventory_item");
 
+    private By productNames =
+            By.className("inventory_item_name");
 
     // Constructor
-
     public InventoryPage(WebDriver driver) {
 
         this.driver = driver;
 
-        wait = new WebDriverWait(
+        this.wait = new WebDriverWait(
                 driver,
                 Duration.ofSeconds(10)
         );
-
     }
 
-
-    // Get Inventory Page Title
-
+    // Get Inventory page title
     public String getInventoryTitle() {
 
         return wait.until(
@@ -49,19 +45,14 @@ public class InventoryPage {
                         inventoryTitle
                 )
         ).getText();
-
     }
 
-
-    // Add Product to Cart
-
-    public void addProductToCart(
-            String productName) {
+    // Add specific product to cart
+    public void addProductToCart(String productName) {
 
         By addToCartButton = By.xpath(
-                "//div[text()='"
-                        + productName
-                        + "']/ancestor::div[contains(@class,'inventory_item')]"
+                "//div[text()='" + productName + "']"
+                        + "/ancestor::div[contains(@class,'inventory_item')]"
                         + "//button"
         );
 
@@ -70,12 +61,9 @@ public class InventoryPage {
                         addToCartButton
                 )
         ).click();
-
     }
 
-
-    // Get all products
-
+    // Get all complete product cards
     public List<WebElement> getAllProducts() {
 
         return wait.until(
@@ -83,7 +71,15 @@ public class InventoryPage {
                         productItems
                 )
         );
-
     }
 
+    // Get only product names
+    public List<WebElement> getProductNames() {
+
+        return wait.until(
+                ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                        productNames
+                )
+        );
+    }
 }
