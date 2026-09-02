@@ -28,3 +28,18 @@ jobs:
 
       - name: Run Selenium tests
         run: mvn test -Dheadless=true
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: target/surefire-reports/
+
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots
+          path: screenshots/
+          if-no-files-found: ignore
