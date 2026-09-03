@@ -77,7 +77,7 @@ public class CartTest extends BaseTest {
 
         Assert.assertEquals(
                 actualQuantity,
-                "999"
+                TestData.BACKPACK_QUANTITY
         );
 
         // Verify price
