@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -22,31 +23,27 @@ import utilities.DriverFactory;
 public class BaseTest {
 
     protected WebDriver driver;
-
     protected LoginPage loginPage;
-
 
     @BeforeMethod
     public void setUp() {
 
         driver = DriverFactory.getDriver();
 
-        driver.manage().window().maximize();
+        driver.manage()
+                .window()
+                .maximize();
 
         driver.get(
                 ConfigReader.getProperty("url")
         );
 
-        loginPage =
-                new LoginPage(driver);
-
+        loginPage = new LoginPage(driver);
     }
 
 
-    // Take Screenshot
-
-    public void takeScreenshot(
-            String testName) {
+    // Take screenshot
+    public void takeScreenshot(String testName) {
 
         TakesScreenshot screenshot =
                 (TakesScreenshot) driver;
@@ -61,7 +58,6 @@ public class BaseTest {
                         + testName
                         + ".png";
 
-
         try {
 
             Path destination =
@@ -69,58 +65,45 @@ public class BaseTest {
                             screenshotPath
                     );
 
-
             Files.createDirectories(
                     destination.getParent()
             );
 
-
             Files.copy(
                     sourceFile.toPath(),
-                    destination
+                    destination,
+                    StandardCopyOption.REPLACE_EXISTING
             );
-
 
             System.out.println(
                     "Screenshot saved: "
                             + screenshotPath
             );
 
-
         } catch (IOException e) {
 
             e.printStackTrace();
-
         }
-
     }
 
 
     @AfterMethod
-    public void tearDown(
-            ITestResult result) {
-
+    public void tearDown(ITestResult result) {
 
         // Take screenshot if test fails
-
         if (result.getStatus()
                 == ITestResult.FAILURE) {
 
             takeScreenshot(
                     result.getName()
             );
-
         }
 
-
         // Close browser
-
         if (driver != null) {
 
             driver.quit();
-
         }
-
     }
 
 
@@ -132,7 +115,5 @@ public class BaseTest {
                 username,
                 password
         );
-
     }
-
 }

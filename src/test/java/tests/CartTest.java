@@ -80,7 +80,6 @@ public class CartTest extends BaseTest {
                 TestData.BACKPACK_QUANTITY
         );
 
-
         // Verify price
 
         Assert.assertEquals(

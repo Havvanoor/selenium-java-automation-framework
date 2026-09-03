@@ -4,19 +4,15 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CartPage {
 
     private WebDriver driver;
-
     private WebDriverWait wait;
 
-
     // Locators
-
     private By cartButton =
             By.className("shopping_cart_link");
 
@@ -29,9 +25,7 @@ public class CartPage {
     private By productPrice =
             By.className("inventory_item_price");
 
-
     // Constructor
-
     public CartPage(WebDriver driver) {
 
         this.driver = driver;
@@ -40,12 +34,9 @@ public class CartPage {
                 driver,
                 Duration.ofSeconds(10)
         );
-
     }
 
-
     // Open Cart
-
     public void openCart() {
 
         wait.until(
@@ -54,11 +45,15 @@ public class CartPage {
                 )
         ).click();
 
+        // Wait until navigation to Cart page is completed
+        wait.until(
+                ExpectedConditions.urlContains(
+                        "cart.html"
+                )
+        );
     }
 
-
     // Get Product Name
-
     public String getProductName() {
 
         return wait.until(
@@ -66,12 +61,9 @@ public class CartPage {
                         productName
                 )
         ).getText();
-
     }
 
-
     // Get Product Quantity
-
     public String getProductQuantity() {
 
         return wait.until(
@@ -79,12 +71,9 @@ public class CartPage {
                         productQuantity
                 )
         ).getText();
-
     }
 
-
     // Get Product Price
-
     public String getProductPrice() {
 
         return wait.until(
@@ -92,7 +81,5 @@ public class CartPage {
                         productPrice
                 )
         ).getText();
-
     }
-
 }
